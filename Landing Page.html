@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24Seven EBSP Trainer Quizzes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 50px;
+            font-weight: 300;
+        }
+
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .quiz-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.4);
+        }
+
+        .quiz-card.set2 {
+            background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
+        }
+
+        .quiz-number {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .quiz-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .quiz-description {
+            font-size: 0.95em;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .quiz-questions {
+            font-size: 0.9em;
+            opacity: 0.85;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1em;
+            margin-top: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .quiz-card.set2 .btn {
+            color: #764ba2;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: left;
+            margin-top: 30px;
+            color: #333;
+        }
+
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .info-box p {
+            margin-bottom: 8px;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .badge.set2 {
+            background: #764ba2;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .quiz-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .quiz-card {
+                padding: 30px 20px;
+            }
+
+            .quiz-number {
+                font-size: 2.5em;
+            }
+
+            .quiz-title {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>24Seven EBSP Trainer Handbook</h1>
+        <p class="subtitle">Junior Instructor Assessment Quizzes</p>
+
+        <div class="quiz-grid">
+            <a href="24seven_ebsp_quiz_set1.html" class="quiz-card">
+                <div class="quiz-number">01</div>
+                <div class="quiz-title">Quiz Set 1</div>
+                <div class="quiz-description">Test your understanding of EBSP principles</div>
+                <div class="quiz-questions">50 Application-Based Questions</div>
+                <div class="btn">Start Quiz →</div>
+                <span class="badge">Recommended for first attempt</span>
+            </a>
+
+            <a href="24seven_ebsp_quiz_set2.html" class="quiz-card set2">
+                <div class="quiz-number">02</div>
+                <div class="quiz-title">Quiz Set 2</div>
+                <div class="quiz-description">Alternative assessment set</div>
+                <div class="quiz-questions">50 Application-Based Questions</div>
+                <div class="btn">Start Quiz →</div>
+                <span class="badge set2">For practice or re-certification</span>
+            </a>
+        </div>
+
+        <div class="info-box">
+            <h3>ℹ️ How to Take the Quiz</h3>
+            <p><strong>1.</strong> Click on a quiz set above</p>
+            <p><strong>2.</strong> Answer all 50 questions (no time limit)</p>
+            <p><strong>3.</strong> Submit to see your instant score</p>
+            <p><strong>4.</strong> Review detailed answer explanations</p>
+            <p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;"><strong>Passing Score:</strong> 75% or higher (37-38+ out of 50) is recommended for certification readiness.</p>
+        </div>
+    </div>
+</body>
+</html>

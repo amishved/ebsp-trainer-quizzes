@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24Seven EBSP Trainer Handbook - Quiz Set 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .header .set-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .question-container {
+            margin-bottom: 35px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 6px;
+        }
+
+        .question-number {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .question-text {
+            font-size: 1.05em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            color: #333;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-size: 1.1em;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results {
+            display: none;
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .score-display {
+            font-size: 3em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .score-text {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .score-feedback {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .score-feedback.excellent {
+            color: #28a745;
+        }
+
+        .score-feedback.good {
+            color: #17a2b8;
+        }
+
+        .score-feedback.fair {
+            color: #ffc107;
+        }
+
+        .score-feedback.needs-improvement {
+            color: #dc3545;
+        }
+
+        .answer-review {
+            text-align: left;
+            margin-top: 30px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        .answer-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .answer-item:last-child {
+            border-bottom: none;
+        }
+
+        .answer-item.correct {
+            background: #d4edda;
+            padding: 10px;
+            border-left: 4px solid #28a745;
+            border-radius: 4px;
+        }
+
+        .answer-item.incorrect {
+            background: #f8d7da;
+            padding: 10px;
+            border-left: 4px solid #dc3545;
+            border-radius: 4px;
+        }
+
+        .answer-number {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .answer-correct {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .answer-incorrect {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        .retry-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .retry-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ddd;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .info-text {
+            background: #e7f3ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        .nav-link {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .nav-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link a:hover {
+            color: #764ba2;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .score-display {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>24Seven EBSP Trainer Handbook</h1>
+            <span class="set-badge">Quiz Set 1</span>
+            <p>Junior Instructor Assessment</p>
+        </div>
+
+        <div class="info-text">
+            <strong>Instructions:</strong> Answer all 50 questions. Your score will be calculated immediately upon submission. Review your answers below the final score.
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <form id="quizForm" onsubmit="submitQuiz(event)">
+            <div id="questionsContainer"></div>
+            <button type="submit" class="submit-btn">Submit Quiz</button>
+        </form>
+
+        <div id="results" class="results">
+            <div class="score-display" id="scoreDisplay"></div>
+            <div class="score-text">out of 50 points</div>
+            <div class="score-feedback" id="scoreFeedback"></div>
+            <div class="answer-review" id="answerReview"></div>
+            <button class="retry-btn" onclick="retakeQuiz()">Retake Quiz</button>
+            <div class="nav-link">
+                <a href="#">← Back to Quiz Selection</a> | <a href="#">Try Quiz Set 2 →</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizQuestions = [
+            {
+                question: "You are planning an afternoon session for Learning to Sail athletes. The wind is light (8 knots) and the forecast shows it may increase to 15 knots by 3 PM. What should you do?",
+                options: [
+                    "Run the session as planned because you can handle stronger conditions",
+                    "Complete the STAR pre-session risk assessment before going afloat, note the wind forecast, and adjust the activity or timing if needed",
+                    "Wait and see if the wind increases, then decide during the session",
+                    "Cancel the session because conditions might change"
+                ],
+                correct: 1
+            },
+            {
+                question: "During a session, you notice an athlete becoming very quiet and withdrawn after struggling with a tacking sequence. What is the professional response?",
+                options: [
+                    "Ignore it and move on to the next drill",
+                    "Observe the behaviour factually, check their physical safety, and provide a debrief that resets their focus rather than repeating the same drill",
+                    "Tell them to 'toughen up' and try again",
+                    "Call their parents immediately"
+                ],
+                correct: 1
+            },
+            {
+                question: "A hard-stop condition in EBSP means:",
+                options: [
+                    "A delay that stops your schedule",
+                    "A condition that makes training unsafe or inappropriate and the session does not proceed afloat",
+                    "A rule you can negotiate around",
+                    "Something that only applies to young children"
+                ],
+                correct: 1
+            },
+            {
+                question: "You have completed a training session but have not yet entered the LoI scores or written a closing report. Is the session complete?",
+                options: [
+                    "Yes, the session is complete because the athletes have gone home",
+                    "No, the session is not administratively complete until the online records are filed",
+                    "Yes, if you remember the scores later you can add them",
+                    "No, only if something went wrong"
+                ],
+                correct: 1
+            },
+            {
+                question: "An athlete completes a launching sequence but needs repeated prompts to check boat angle and centreboard timing. What is the appropriate LoI score?",
+                options: [
+                    "LoI-1 (standard not met)",
+                    "LoI-2 (criteria met with constant prompting)",
+                    "LoI-4 (criteria met independently)",
+                    "LoI-5 (criteria met at demonstrable quality)"
+                ],
+                correct: 1
+            },
+            {
+                question: "A Learning to Sail athlete is being taught tack entry and exit. The trainer demonstrates once, then the athlete practices. During practice, the athlete struggles and the trainer keeps demonstrating the same movement repeatedly. What is happening?",
+                options: [
+                    "Good teaching because the athlete is getting extra help",
+                    "The session may have shifted from teaching into repeated rescue, signalling that the task design needs adjustment",
+                    "Effective instruction because repetition always helps",
+                    "A sign that the athlete should move to a different stage"
+                ],
+                correct: 1
+            },
+            {
+                question: "You notice one athlete in a mixed group is consistently hiding behind stronger sailors and not engaging with the task. What should you do?",
+                options: [
+                    "Leave them alone because they seem comfortable",
+                    "Record the observation, adjust task design with differentiation (different starting positions, different task load), and monitor progress",
+                    "Move them to a different group immediately",
+                    "Tell them to pay attention"
+                ],
+                correct: 1
+            },
+            {
+                question: "When should the pre-session STAR risk assessment be completed?",
+                options: [
+                    "During the session if you remember",
+                    "After the session, based on what happened",
+                    "Before going afloat, using the online system",
+                    "Only if conditions look risky"
+                ],
+                correct: 2
+            },
+            {
+                question: "An athlete makes a partial disclosure suggesting something uncomfortable happened at home. What is the trainer's first responsibility?",
+                options: [
+                    "Question them further to understand what happened",
+                    "Tell them not to worry and focus on sailing",
+                    "Record the facts factually, do not investigate further, and report through the correct safeguarding channel immediately",
+                    "Discuss it with the athlete's friends to gather more information"
+                ],
+                correct: 2
+            },
+            {
+                question: "You are debriefing an athlete after assessment. The standard was not met independently. What is appropriate language?",
+                options: [
+                    "'You were lazy today.'",
+                    "'You don't have the right attitude for racing.'",
+                    "'You held lane control well, but you still needed prompts to scan before tacking. Next session, scan earlier and decide independently.'",
+                    "'That was a poor performance.'"
+                ],
+                correct: 2
+            },
+            {
+                question: "A trainer is preparing a session plan. What should be included?",
+                options: [
+                    "Just the activity name",
+                    "Athlete group, stage, competencies in focus, expected conditions, hazards, rescue plan, and what records will be completed",
+                    "Only the wind forecast",
+                    "A general idea of what to do when you arrive"
+                ],
+                correct: 1
+            },
+            {
+                question: "During a session, conditions deteriorate rapidly. Athletes show slower response times, there is increasing confusion, and one rescue cover boat moves out of position. What should happen?",
+                options: [
+                    "Continue the session because you started it",
+                    "Intervene early with preventive action: bring athletes closer to shore, reduce group size, or change activity before the situation becomes unsafe",
+                    "Wait until something goes wrong",
+                    "Tell the athletes to try harder"
+                ],
+                correct: 1
+            },
+            {
+                question: "What is the core difference between LoI-1 and LoI-2 through LoI-5?",
+                options: [
+                    "LoI-2 is only one level higher",
+                    "LoI-1 means the standard was not met; LoI-2 to LoI-5 mean the standard was met with varying levels of support needed",
+                    "There is no meaningful difference",
+                    "LoI-1 is for beginners only"
+                ],
+                correct: 1
+            },
+            {
+                question: "You are communicating a task to a First Splash athlete. What is most effective?",
+                options: [
+                    "A 10-minute detailed explanation of boat physics",
+                    "Short, specific instruction linked to the task, safety points, then let them try",
+                    "Giving them time to figure it out alone",
+                    "Showing them a video before the session"
+                ],
+                correct: 1
+            },
+            {
+                question: "A female coach at your venue makes a sexually-coloured remark to a female athlete about her body. What law applies and what is your responsibility?",
+                options: [
+                    "POCSO applies; you should report to the police immediately",
+                    "POSH applies; you should report through the Internal Complaints Committee or appropriate reporting channel",
+                    "It's just coaching banter, ignore it",
+                    "Only the athlete can complain"
+                ],
+                correct: 1
+            },
+            {
+                question: "A trainer assists a young athlete with boat position by adjusting their stance. This is:",
+                options: [
+                    "Always inappropriate",
+                    "Appropriate only with witness/other adults present, announced before contact, and purposeful for safety",
+                    "Appropriate anytime as long as you mean well",
+                    "Against POCSO law"
+                ],
+                correct: 1
+            },
+            {
+                question: "During a session debrief, you notice the athlete became overconfident after one successful run. They stopped checking safety procedures. What should you do?",
+                options: [
+                    "Praise them for the successful run and say nothing else",
+                    "Criticize them harshly for getting overconfident",
+                    "Debrief using fact: 'After your successful run, you stopped checking your centrecase before launching. Overconfidence can create risk. Next time, maintain your safety check routine regardless of success.'",
+                    "Give them the same drill again without explanation"
+                ],
+                correct: 2
+            },
+            {
+                question: "What is the purpose of silent observation as an instructional technique?",
+                options: [
+                    "To rest as a trainer",
+                    "To see the athlete's real level of independence without trainer prompts affecting performance",
+                    "To confuse the athlete",
+                    "Only for advanced athletes"
+                ],
+                correct: 1
+            },
+            {
+                question: "A mitigation in risk management means:",
+                options: [
+                    "Cancelling the session",
+                    "Ignoring a risk and hoping nothing happens",
+                    "Taking specific action to reduce a manageable risk before it becomes serious (e.g., reducing group size, moving closer to shore)",
+                    "Telling the athletes to be careful"
+                ],
+                correct: 2
+            },
+            {
+                question: "You are planning a session for mixed-level Learning to Sail athletes. What is appropriate differentiation?",
+                options: [
+                    "Teach everyone the same way at the same pace",
+                    "Use different starting positions, different repetition counts, or different environmental challenge while keeping the session coherent",
+                    "Separate the group into different venues",
+                    "Only work with the most advanced athletes"
+                ],
+                correct: 1
+            },
+            {
+                question: "A trainer is giving continuous prompts and corrections during an athlete's execution. The athlete completes the task but only with constant trainer input. Is this learning?",
+                options: [
+                    "Yes, the standard was met",
+                    "Yes, but incomplete; it is learning with support (LoI-2), not yet independence, and progression requires reducing that support",
+                    "No, learning is not happening",
+                    "Only if the athlete feels confident"
+                ],
+                correct: 1
+            },
+            {
+                question: "What does EBSP stand for?",
+                options: [
+                    "Emergency Boat Safety Protocol",
+                    "Evidence-Based Sailing Programme",
+                    "Expert Boat Sailing Practice",
+                    "Established Basic Sailing Performance"
+                ],
+                correct: 1
+            },
+            {
+                question: "An athlete shows fear around a specific trainer and avoids being alone with them. What should you do?",
+                options: [
+                    "Ask the athlete what happened",
+                    "Record the observation factually and escalate through the proper safeguarding channel without investigating yourself",
+                    "Talk to the trainer about it informally",
+                    "Monitor the situation and wait"
+                ],
+                correct: 1
+            },
+            {
+                question: "What is the difference between teaching and rescuing in a training session?",
+                options: [
+                    "There is no difference",
+                    "Teaching is pre-planned explanation or demonstration; rescuing is stepping in during execution because the athlete cannot continue safely without trainer intervention",
+                    "Rescuing is better teaching",
+                    "Teaching is only for beginners"
+                ],
+                correct: 1
+            },
+            {
+                question: "A closing report after a session serves what purpose?",
+                options: [
+                    "None; it's just paperwork",
+                    "To preserve the developmental record, support progression decisions, enable handover between coaches, and create accountability",
+                    "Only required if something went wrong",
+                    "Only for the programme director to review"
+                ],
+                correct: 1
+            },
+            {
+                question: "During the debrief after a session, an athlete reveals they were hurt when a trainer touched their leg to show boat position adjustments. What is your responsibility?",
+                options: [
+                    "Tell them it was for coaching and it was fine",
+                    "Report it to the appropriate safeguarding channel and do not investigate further",
+                    "Discuss it with the other trainer informally",
+                    "Wait to see if it happens again"
+                ],
+                correct: 1
+            },
+            {
+                question: "A trainer is coaching an athlete through a tack sequence. The athlete misses the first attempt. The trainer should:",
+                options: [
+                    "Repeat the same demonstration and drill without changing anything",
+                    "Observe what went wrong, identify if the issue is task complexity or athlete error, adjust the task or prompting, and repeat",
+                    "Move on to a different skill",
+                    "Tell the athlete they need more practice at home"
+                ],
+                correct: 1
+            },
+            {
+                question: "Under POCSO, the mandatory reporting obligation applies when you have:",
+                options: [
+                    "Absolute proof of abuse",
+                    "Knowledge or reasonable suspicion of child sexual abuse (non-negotiable, failure to report is criminal)",
+                    "Decided it is serious enough",
+                    "Asked other people's opinions"
+                ],
+                correct: 1
+            },
+            {
+                question: "An assessment session for boat handling competency occurs in heavy wind. An athlete meets the standard with only light prompting. What should the trainer record?",
+                options: [
+                    "LoI-4 with no conditions noted",
+                    "LoI-4, but record that the score was earned in heavy wind (conditions matter for future progression evidence)",
+                    "LoI-3 because it's heavy wind",
+                    "No score yet because you need to assess in light wind too"
+                ],
+                correct: 1
+            },
+            {
+                question: "A trainer notices an athlete making a sexual joke during a session. The joke makes others uncomfortable. What is the trainer's responsibility?",
+                options: [
+                    "Laugh along to keep the mood light",
+                    "Address it immediately: stop the behaviour, explain why it is not appropriate, and record if it represents a pattern or safeguarding concern",
+                    "Ignore it and move on",
+                    "Tell the athlete's parents"
+                ],
+                correct: 1
+            },
+            {
+                question: "What is the primary measurement axis in EBSP assessment (not outcomes or time served)?",
+                options: [
+                    "Race results",
+                    "Time in the boat",
+                    "Level of Intervention (LoI) required for the athlete to perform correctly and safely",
+                    "Trainer satisfaction"
+                ],
+                correct: 2
+            },
+            {
+                question: "A trainer takes personal photos of young athletes in training gear and shares them on personal social media without programme approval. What is the issue?",
+                options: [
+                    "It's fine if you got a good shot",
+                    "It violates programme policy and safeguarding standards around minors' images and consent",
+                    "Only an issue if parents complain",
+                    "Photos are always okay if they're flattering"
+                ],
+                correct: 1
+            },
+            {
+                question: "During a session, a trainer keeps demonstrating a task repeatedly while the athlete watches. The athlete has not improved. What should the trainer consider?",
+                options: [
+                    "The athlete is not trying hard enough",
+                    "The session may have shifted into rescue mode; consider simplifying the task, changing the approach, or reassessing the athlete's readiness for this stage",
+                    "Demonstrating more will eventually work",
+                    "The athlete should be moved to a different group"
+                ],
+                correct: 1
+            },
+            {
+                question: "What is a cue in coaching?",
+                options: [
+                    "A long explanation",
+                    "A short, specific direction that focuses attention during task execution (e.g., 'Look up', 'Trim now')",
+                    "A question asked after the task",
+                    "Only for advanced athletes"
+                ],
+                correct: 1
+            },
+            {
+                question: "A Learning to Race athlete rushes their decision-making when anxious. What should the trainer record in behaviour notes?",
+                options: [
+                    "'Lacks mental strength.'",
+                    "'Rushed tactical decisions when task complexity increased; maintained composure after reset cue. Next target: pause before deciding under time pressure.'",
+                    "'Bad attitude.'",
+                    "'Not cut out for racing.'"
+                ],
+                correct: 1
+            },
+            {
+                question: "An Internal Complaints Committee (ICC) is required for an organisation with:",
+                options: [
+                    "Any number of people",
+                    "Fewer than five people",
+                    "Ten or more employees",
+                    "Only if a complaint is made"
+                ],
+                correct: 2
+            },
+            {
+                question: "A trainer communicates a safety point before a session, then during the task gives brief cues only. After, they debrief with clear feedback. What is this structure called?",
+                options: [
+                    "Poor timing",
+                    "Before, during, and after communication (appropriate structure)",
+                    "Repetitive coaching",
+                    "Unnecessary communication"
+                ],
+                correct: 1
+            },
+            {
+                question: "You are reviewing an athlete's LoI progression over five sessions. They show decreasing intervention needed across sessions (LoI-2 → LoI-3 → LoI-3 → LoI-4 → LoI-4). What does this pattern indicate?",
+                options: [
+                    "The athlete is not making progress",
+                    "Clear progression toward independence in this competency across varying conditions",
+                    "The trainer is not coaching well",
+                    "The standard is too easy"
+                ],
+                correct: 1
+            },
+            {
+                question: "During a residential training camp, a male trainer should:",
+                options: [
+                    "Enter young athletes' sleeping areas if there is a welfare concern to check on them",
+                    "Avoid entering young athletes' sleeping areas; escalate welfare concerns to the programme director instead",
+                    "Sleep near the athletes' accommodation for safety",
+                    "It's fine to supervise sleeping areas informally"
+                ],
+                correct: 1
+            },
+            {
+                question: "A trainer's session had a hard stop (wind exceeded safe limits). The session did not proceed afloat. Was this the right decision?",
+                options: [
+                    "No, trainers should negotiate with risk conditions",
+                    "Yes; hard stops are non-negotiable, and safety is the first condition for learning",
+                    "Only if the athlete was scared",
+                    "It depends on how experienced the trainer is"
+                ],
+                correct: 1
+            },
+            {
+                question: "What should happen if an athlete's LoI assessment score does not match your expectations?",
+                options: [
+                    "Change the score to match your expectation",
+                    "Record the actual observed performance (fact, not assumption), discuss with a qualified observer if needed, and plan next steps based on the real data",
+                    "Ignore the discrepancy",
+                    "Assume your expectation was wrong"
+                ],
+                correct: 1
+            },
+            {
+                question: "A trainer uses a questioning technique to check understanding: 'What will you do if the wind pressure drops during your run?' What does this reveal?",
+                options: [
+                    "Nothing useful",
+                    "Whether the athlete has internalised the decision-making behind the task",
+                    "Only how well they can guess",
+                    "Whether they like the trainer"
+                ],
+                correct: 1
+            }
+        ];
+
+        let selectedAnswers = {};
+
+        function loadQuiz() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+            
+            quizQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-container';
+                
+                const questionNum = document.createElement('div');
+                questionNum.className = 'question-number';
+                questionNum.textContent = `Question ${index + 1} of ${quizQuestions.length}`;
+                
+                const questionText = document.createElement('div');
+                questionText.className = 'question-text';
+                questionText.textContent = q.question;
+                
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'options';
+                
+                q.options.forEach((option, optIndex) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option';
+                    
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = `q${index}`;
+                    radio.value = optIndex;
+                    radio.id = `q${index}opt${optIndex}`;
+                    radio.onchange = () => {
+                        selectedAnswers[index] = optIndex;
+                        updateProgress();
+                    };
+                    
+                    const label = document.createElement('label');
+                    label.htmlFor = `q${index}opt${optIndex}`;
+                    label.textContent = option;
+                    
+                    optionDiv.appendChild(radio);
+                    optionDiv.appendChild(label);
+                    optionsDiv.appendChild(optionDiv);
+                });
+                
+                questionDiv.appendChild(questionNum);
+                questionDiv.appendChild(questionText);
+                questionDiv.appendChild(optionsDiv);
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function updateProgress() {
+            const answered = Object.keys(selectedAnswers).length;
+            const progress = (answered / quizQuestions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function submitQuiz(event) {
+            event.preventDefault();
+            
+            let score = 0;
+            const answers = [];
+            
+            quizQuestions.forEach((q, index) => {
+                const selected = selectedAnswers[index];
+                const isCorrect = selected === q.correct;
+                if (isCorrect) score++;
+                
+                answers.push({
+                    question: q.question,
+                    selected: selected !== undefined ? q.options[selected] : 'Not answered',
+                    correct: q.options[q.correct],
+                    isCorrect: isCorrect
+                });
+            });
+            
+            displayResults(score, answers);
+        }
+
+        function displayResults(score, answers) {
+            const percentage = Math.round((score / 50) * 100);
+            document.getElementById('scoreDisplay').textContent = score;
+            
+            let feedback = '';
+            let feedbackClass = '';
+            
+            if (percentage >= 90) {
+                feedback = '🌟 Excellent! You demonstrate strong understanding of EBSP principles.';
+                feedbackClass = 'excellent';
+            } else if (percentage >= 80) {
+                feedback = '✓ Good! You have solid command of the material. Review areas where you were uncertain.';
+                feedbackClass = 'good';
+            } else if (percentage >= 70) {
+                feedback = '→ Fair. You understand the concepts but should review key areas before certification.';
+                feedbackClass = 'fair';
+            } else {
+                feedback = '⚠ Needs Improvement. Focus on review before proceeding to practical assessment.';
+                feedbackClass = 'needs-improvement';
+            }
+            
+            const feedbackDiv = document.getElementById('scoreFeedback');
+            feedbackDiv.textContent = feedback;
+            feedbackDiv.className = 'score-feedback ' + feedbackClass;
+            
+            const reviewDiv = document.getElementById('answerReview');
+            let reviewHTML = '<h3 style="margin-bottom: 15px; color: #333;">Answer Review</h3>';
+            
+            answers.forEach((answer, index) => {
+                const itemClass = answer.isCorrect ? 'correct' : 'incorrect';
+                const statusText = answer.isCorrect ? '✓ Correct' : '✗ Incorrect';
+                const statusClass = answer.isCorrect ? 'answer-correct' : 'answer-incorrect';
+                
+                reviewHTML += `
+                    <div class="answer-item ${itemClass}">
+                        <div class="answer-number">Question ${index + 1}: <span class="${statusClass}">${statusText}</span></div>
+                        <div style="margin-top: 8px; font-size: 0.9em;">
+                            <div><strong>Your answer:</strong> ${answer.selected}</div>
+                            ${!answer.isCorrect ? `<div><strong>Correct answer:</strong> ${answer.correct}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            reviewDiv.innerHTML = reviewHTML;
+            document.getElementById('results').classList.add('show');
+            window.scrollTo(0, 0);
+        }
+
+        function retakeQuiz() {
+            selectedAnswers = {};
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('progressFill').style.width = '0%';
+            loadQuiz();
+            window.scrollTo(0, 0);
+        }
+
+        // Load quiz on page load
+        loadQuiz();
+    </script>
+</body>
+</html>
